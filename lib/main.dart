@@ -1,7 +1,8 @@
+// main.dart
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -10,46 +11,56 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // hide debug banner
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter',
-      home: HomePage(),
-    );
+      // Remove the debug banner
+        debugShowCheckedModeBanner: false,
+        title: 'Kindacode.com',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        home: HomePage());
   }
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
-
-  final List<Map> myProducts =
-      List.generate(100, (index) => {"id": index, "name": "Product $index"})
-          .toList();
+  // Generate some dummy data
+  final List<Map<String, dynamic>> _items = List.generate(
+      100,
+          (index) =>
+      {"id": index, "title": "Item $index", "subtitle": "Subtitle $index"});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(8.0),
-        // implement GridView.builder
-        child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20),
-            itemCount: myProducts.length,
-            itemBuilder: (BuildContext context, index) {
-              return Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Text(myProducts[index]["name"]));
-            }),
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Flutter'),
+        ),
+        body: ListTileTheme(
+          contentPadding: const EdgeInsets.all(15),
+          iconColor: Colors.red,
+          textColor: Colors.black54,
+          tileColor: Colors.yellow[100],
+          style: ListTileStyle.list,
+          dense: true,
+          child: ListView.builder(
+            itemCount: _items.length,
+            itemBuilder: (_, index) => Card(
+              margin: const EdgeInsets.all(10),
+              child: ListTile(
+                title: Text(_items[index]['title']),
+                subtitle: Text(_items[index]['subtitle']),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.delete)),
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.add_box)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ));
   }
 }
