@@ -1,6 +1,6 @@
 # run
 
-A new Flutter project about a game.
+A new Flutter project about some practices.
 
 ## Getting Started
 
